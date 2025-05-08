@@ -1,0 +1,45 @@
+Tk/Button.pm and Tk/Menubutton.pm:
+
+I modified these many years ago to facilitate the auto-binding of 
+[Alt-[key_letter]] bindings in their toplevel window parents when either a 
+tilde ("~" appears before a letter in the button's/menubutton's text or the 
+button's/menubutton's "-underline" option is used.  Apparently Tk does NOT 
+do this automatically and without these changes, the app.-writer must add 
+these bindings manually in the code for each button/menubutton with a 
+specified shortcut letter to make the shortcuts work.  See my comments in the 
+code!
+
+Tk/Listbox.pm and Tk/HList.pm
+
+I do not like many of the default mouse & keyboard bindings for the various 
+"-selectmode" modes, namely "browse" and "extended", which seem archaic to me, 
+so I made the behaviour more modern, consistant & useful.  Both these two 
+modules work normally by default.  To use my alternate bindings, one need only 
+to export the environment variable "jwtlistboxhack" set to "1".  This will use 
+my alternate bindings for Listboxes, HLists, and some of my other Perl/Tk 
+modules available on CPAN that work with lists and dropdowns.
+
+I implemented this as sort of a hidden "easter-egg" such that other users are 
+not affected (unless they set this environment variable).  These 2 modules, 
+however come with Perl/Tk and so you'll need these modified versions in order 
+to take advantage of this "easter-egg!"
+
+There are numerous changes, so you will likely wish to just try it out.  One 
+of the more major changes for example (in -selectmode => "extended") eliminates 
+clearing of the selection using the mouse (or spacebar) to select additional 
+non-contiguous items allowing user to easily select / deselect items one-at-a-
+time without keyboard modifiers or dragging to select additional items 
+contiguously.  Another, related, is that using [Alt-[mousebutton-1] WILL clear 
+the selection and select just the item clicked on.
+
+To use any of these modules, first rename the original Tk-installed versions to 
+something like "[Modulename].pm.usesite_perl" and download and place it's 
+corresponding replacement in /usr/local/lib/site_perl/Tk/.  NOTE:  You'll need 
+to delete or rename the Tk-installed versions again whenever you upgrade 
+Perl/Tk!  It's also a good idea to check here for upgrades whenever upgrading 
+Perl/Tk in case we've found and incorporated some differences in their 
+versions into these!  Also, be sure to set the "jwtlistboxhack" easter-egg if 
+using these *List* modules, otherwise, there's not much point in installing 
+those.
+
+Enjoy a better Perl/Tk!
