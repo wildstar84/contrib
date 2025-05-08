@@ -1,0 +1,71 @@
+This is my customized version of Tk::Text::SuperText, based on the official 
+CPAN module by that name by Alex Becker 
+(https://metacpan.org/pod/Tk::Text::SuperText) and 
+(https://github.com/asb-capfan/Tk-Text-SuperText).
+
+Reason for this custom version is that I had to fix some issues and add some 
+features to work best with my "E_Editor" 
+(https://github.com/wildstar84/E_Editor), along with numerous minor code and 
+doc cleanups and optimizations that I have not been able to get Alex to 
+implement; and I do not wish to fork this module to a new name under my CPAN 
+control at this time.
+
+To use this module, first install the latest official Tk::Text::SuperText 
+version from CPAN (it includes some auto/Tk/foo required to use it), then:  
+
+1) Rename the installed "SuperText.pm" file to something like SuperText.pm.org.
+
+2) Download this version of "SuperText.pm" and replace the one you just renamed 
+(backed up in case you decide to revert).
+
+3) Create a symlink in the same directory to it called "ROSuperText.pm" which, 
+if "use'd" in your Perl program creates a READONLY version of the text widget, 
+ie "use Tk::Text::ROSuperText".  A READONLY version has most of the same 
+features in SuperText, but prevents users from making any changes to the 
+displayed text.  Module users can also do "use Tk::Text::SuperText", then in 
+their program toggle to and from readonly by calling 
+$textwidget->configure('-readonly' => 1); (or zero to make read/writable again.
+
+Besides the "-readonly" features, the following changes were made for my 
+custom version of this widget:
+
+1) Added Tk::TextUndo's EmptyDocument() function which can clear the text even 
+in "READONLY" mode from within a program (needed by E_Editor).
+
+2) Make deleteSelected() function simply clear the selection (remove highlight) 
+in READONLY mode.
+
+3) Make pressing the <Return> key (enter() function) simply move the cursor to 
+the beginning of the next line of text in READONLY mode.
+
+4) Make pressing the <Backspace> key simply clear the selection and move the 
+cursor to the previous character in READONLY mode.  Also made some further 
+fixes to the way the <Backspace> key is bound & handled.
+
+5) Don't auto-unbind wheelmouse button bindings by default (so that scrollwheels work on 
+SuperText text widgets.
+
+6) Add "-insertbackground" color option.
+
+7) Make "-insertbackground" and "-foreground" color options also apply to all 
+subwidgets.
+
+8) Make dumping of a list of Term::ANSIColor tags sort in correct order (was 
+returning them in reverse-order).
+
+9) Remove sometimes extraneous empty tags generated from Term::ANSIColor.
+
+10) Make moveLeftWord() fuction work consistantly with moveRightWord().
+
+11) Make deleteToWordStart() function work consistantly with deleteToWordEnd().
+
+Numerous code cleanups & optimization tweeks such as usage of /o optimizations 
+on non-changing regices in loops or otherwise frequently used that the 
+SuperText author doesn't like apparently, and elimination of needless scopes, 
+if (cond) { stmt. } => stmt  if (cond), etc.
+
+Numerous doc cleanups including reformatting to limit (where possible) POD 
+text to 80 characters so that terminal-based "man" command will format 
+correctly.
+
+Enjoy a better (imho) version of Tk::Text::SuperText!
